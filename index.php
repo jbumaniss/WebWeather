@@ -1,9 +1,17 @@
 <?php
 
-use App\Controllers\TwigController;
+use App\Services\TwigController;
 use App\TemplateView;
+use DI\Container;
+use DI\ContainerBuilder;
+use Dotenv\Dotenv;
+use App\Services\WeatherDataService;
+use App\Repositories\WeatherApiDataRepository;
 
 require_once 'vendor/autoload.php';
+
+$dotEnv = Dotenv::createImmutable(__DIR__);
+$dotEnv->load();
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', "App\Controllers\WeatherIndexController@index");
@@ -40,9 +48,21 @@ switch ($routeInfo[0]) {
         $twigConfig = new TwigController();
 
         /** @var TemplateView $view */
-        $view = (new $controller)->$method();
+        $container = new Container();
 
-         $template =  $twigConfig->twig()->load($view->getTemplatePath());
-         echo $template->render($view->getData());
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->addDefinitions([
+            'WeatherDataService' => new WeatherDataService(
+                new WeatherApiDataRepository()
+            )
+        ]);
+        $container = $containerBuilder->build();
+
+        $service = $container->get("WeatherDataService");
+
+        $view = (new $controller($service))->$method();
+
+        $template = $twigConfig->twig()->load($view->getTemplatePath());
+        echo $template->render($view->getData());
         break;
 }

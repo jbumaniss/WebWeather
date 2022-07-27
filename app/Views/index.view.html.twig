@@ -9,16 +9,23 @@
         <ul class="">
             {% for item in data %}
                 <div class="d-lg-inline-block p-4 ">
+                    <img class="w-100 img-thumbnail " alt="Whether Icon" src="https://{{ item.getIcon }}"/>
                     <li {% if item.isCurrentHour %} style = "font-size: 20px" class="bg-gradient rounded" {% endif %}
-                            class="">Date: {{ item.getDate }}
+                            class="">{{ item.getDate }}
                     </li>
                     <li {% if item.isCurrentHour %} style = "font-size: 20px" class="bg-gradient rounded" {% endif %} >
-                        Temperature: {{ item.getTemperature }}C
+                        {{ item.getCloud }}%
+                    </li>
+                    <li {% if item.isCurrentHour %} style = "font-size: 20px" class="bg-gradient rounded" {% endif %} >
+                        {{ item.getTemperature }}C
                     </li>
                     <li {% if item.isCurrentHour %} style = "font-size: 20px" class="bg-gradient rounded" {% endif %} >
                         Humidity: {{ item.getHumidity }}%
                     </li>
-                    <img class="img-thumbnail " alt="Whether Icon" src="https://{{ item.getIcon }}"/>
+                    <li {% if item.isCurrentHour %} style = "font-size: 20px" class="bg-gradient rounded" {% endif %} >
+                        Wind: {{ item.getWindKph }} Kph
+                    </li>
+
                 </div>
             {% endfor %}
         </ul>

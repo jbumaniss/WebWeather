@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Services;
 
-use App\Models\WeatherData;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-use Twig\TemplateWrapper;
 
 class TwigController
 {

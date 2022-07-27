@@ -3,21 +3,23 @@
 
 namespace App\Models;
 
-use App\Controllers\GuzzleController;
-
 class WeatherData
 {
     private string $date;
     private float $temperature;
     private float $humidity;
     private string $icon;
+    private float $cloud;
+    private float $windKph;
 
-    public function __construct(string $date, float $temperature, float $humidity, string $icon)
+    public function __construct(string $date, float $temperature, float $humidity, string $icon, float $cloud, float $windKph)
     {
         $this->date = $date;
         $this->temperature = $temperature;
         $this->humidity = $humidity;
         $this->icon = $icon;
+        $this->cloud = $cloud;
+        $this->windKph = $windKph;
     }
 
     public function getDate(): string
@@ -40,9 +42,22 @@ class WeatherData
         return $this->icon;
     }
 
+
+    public function getCloud(): float
+    {
+        return $this->cloud;
+    }
+
+
+    public function getWindKph(): float
+    {
+        return $this->windKph;
+    }
+
     public function isCurrentHour(): bool
     {
         return date('d H', strtotime($this->date)) == date("d H");
     }
+
 
 }

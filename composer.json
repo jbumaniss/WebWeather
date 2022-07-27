@@ -25,6 +25,9 @@
         "twig/twig": "^3.4",
         "guzzlehttp/guzzle": "^7.0",
       "ext-json": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "php-di/php-di": "^6.4",
+        "vlucas/phpdotenv": "^5.4",
+        "nesbot/carbon": "^2.59"
     }
 }
