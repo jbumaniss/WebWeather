@@ -40,12 +40,13 @@ class WeatherDataController
         $date->modify("-12 hour");
         $lastTwelveHours = $date->format("H");
         $date->modify("+24 hour");
-        $nextTwelveHours = $date->format("H");
 
+
+        $nextTwelveHours = $date->format("H");
         if (($nextTwelveHours * 2) < ($currentHour * 2)){
             $nextTwelveHours = "47";
         }
-        for ($i = $lastTwelveHours -1; $i <= $nextTwelveHours; $i++) {
+        for ($i = $lastTwelveHours -1; $i <= 47; $i++) {
             $twelveHourData[] = $data[$i];
         }
         return $twelveHourData;
