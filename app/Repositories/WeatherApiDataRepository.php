@@ -50,7 +50,6 @@ class WeatherApiDataRepository implements WeatherDataRepository
             echo $e;
         }
 
-
         $request = json_decode($response->getBody());
 
         $data = [];

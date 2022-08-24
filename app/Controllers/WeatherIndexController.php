@@ -47,4 +47,9 @@ class WeatherIndexController
     {
         return $this->city;
     }
+
+    public function linkToApiWebsiteForecast()
+    {
+        header('Location: https://www.weatherapi.com/weather/q/' . $_SESSION['search']);
+    }
 }

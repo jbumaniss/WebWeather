@@ -19,6 +19,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/', "App\Controllers\WeatherIndexController@index");
     $r->addRoute('POST', '/search', "App\Controllers\WeatherIndexController@search");
     $r->addRoute('GET', '/contacts', "App\Controllers\WeatherIndexController@contacts");
+    $r->addRoute('GET', '/apiForecast', "App\Controllers\WeatherIndexController@linkToApiWebsiteForecast");
 
 });
 
