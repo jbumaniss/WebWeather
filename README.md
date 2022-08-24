@@ -1,17 +1,52 @@
-# WebWeather
+# WeatherReport App
+
+### Past And Current Day Weather In defined location in search bar
+
+### Created with PHP/Twig/Guzzle/Carbon
+
+
 
 -----
 
-This is simple web Weather app to display yesterday/today 24 hours.
+![Gif](whetherReport.gif)
 
-Api is taken from https://www.weatherapi.com/.
+-----
 
-To use this app:
+![Screenshot](whetherReport2.png)
 
-1] register on https://www.weatherapi.com/,
+-----
 
-2] acquire the api key,
+# How To Set up:
 
-4] fill the .env file in root directory,
 
-5] start the host.
+### ! Requirement: 
+#### PHP installed on your machine
+#### Registered api key from https://www.weatherapi.com/.
+
+----
+
+#### 1. Register on https://www.weatherapi.com/
+
+#### 2. Clone or download to your chosen directory
+
+#### 3. Rename .env.example file to .env
+
+#### 3. Fill API_KEY in the .env file your renamed in root directory with api key from step 1
+
+#### 4. Run command to install required packages
+
+~~~~
+
+composer install
+
+~~~~
+
+### 5. Run with command
+
+~~~~
+
+php -S localhost:8080
+
+~~~~
+
+----

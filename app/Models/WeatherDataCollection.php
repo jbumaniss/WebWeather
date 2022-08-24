@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\DateTimeService;
+use Carbon\CarbonImmutable;
 
 class WeatherDataCollection
 {
@@ -10,15 +10,17 @@ class WeatherDataCollection
 
     public function __construct(array $weatherData)
     {
-        $time= new DateTimeService();
-        $yesterdayHours = $time->getSub12Hours();
+        $carbon = CarbonImmutable::now();
+        $yesterday12Hours = $carbon->subtract(12, 'hour')->isoFormat('HH');
 
-        $yesterday = count($weatherData) / 2 + (int)$yesterdayHours;
-        $today = $yesterday + 24;
         $totalWeatherDataHours = count($weatherData);
 
+        $yesterday = (int)$yesterday12Hours;
+
+        $today = $yesterday + 24;
+
         if ($today > $totalWeatherDataHours) {
-            $today = $totalWeatherDataHours -1;
+            $today -= 1;
         }
 
         for ($i = $yesterday; $i <= $today; $i++) {

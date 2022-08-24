@@ -1,1 +1,1 @@
-{"version":1,"defects":{"\/var\/www\/html\/web02\/tests\/WeatherDataTest.php::WeatherData":3},"times":{"\/var\/www\/html\/web02\/tests\/ExampleTest.php::example":0.002,"\/var\/www\/html\/web02\/tests\/WeatherDataTest.php::WeatherData":0}}
+{"version":1,"defects":{"\/var\/www\/html\/web02\/tests\/WeatherDataTest.php::WeatherData":3},"times":{"\/var\/www\/html\/web02\/tests\/ExampleTest.php::example":0.002,"\/var\/www\/html\/web02\/tests\/WeatherDataTest.php::WeatherData":0.002}}

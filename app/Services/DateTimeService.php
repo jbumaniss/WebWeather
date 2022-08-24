@@ -12,12 +12,14 @@ class DateTimeService
         $today = new Carbon();
         return Carbon::parse($today->toDateTimeString())->format('Y-M-d');
     }
+
     public static function getYesterday(): string
     {
         $today = new Carbon();
-        $today->sub(1,"day");
+        $today->sub(1, "day");
         return Carbon::parse($today->toDateTimeString())->format('Y-M-d');
     }
+
     public function getSub12Hours(): string
     {
         $yesterday = new Carbon();

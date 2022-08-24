@@ -12,8 +12,14 @@ class WeatherData
     private float $cloud;
     private float $windKph;
 
-    public function __construct(string $date, float $temperature, float $humidity, string $icon, float $cloud, float $windKph)
-    {
+    public function __construct(
+        string $date,
+        float $temperature,
+        float $humidity,
+        string $icon,
+        float $cloud,
+        float $windKph
+    ) {
         $this->date = $date;
         $this->temperature = $temperature;
         $this->humidity = $humidity;
@@ -58,6 +64,5 @@ class WeatherData
     {
         return date('d H', strtotime($this->date)) == date("d H");
     }
-
 
 }

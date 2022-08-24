@@ -11,7 +11,6 @@ class TwigController
     {
         $twig = new FilesystemLoader("app/Views/");
         return new Environment($twig);
-
     }
 
 }

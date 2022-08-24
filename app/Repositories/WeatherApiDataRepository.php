@@ -5,24 +5,33 @@ namespace App\Repositories;
 
 use App\Models\WeatherData;
 use App\Models\WeatherDataCollection;
-use App\Services\DateTimeService;
+use Carbon\CarbonImmutable;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 
 class WeatherApiDataRepository implements WeatherDataRepository
 {
-
     public function requestWeatherData(): WeatherDataCollection
     {
         $urlOfHistory = $_ENV['BASE_URL'] . $_ENV['DESTINATION'];
         $response = [];
 
+        if (!$_SESSION['search']) {
+            $_SESSION['search'] = 'Riga';
+        }
+
+
+        $carbon = CarbonImmutable::now();
+        $carbonBefore12Hours = $carbon->subtract(12, 'hour')->isoFormat('Y-MMM-D');
+        $carbonAfter12Hours = $carbon->add(12, 'hour')->isoFormat('Y-MMM-D');
+
+
         $parametersOfHistory = [
             'key' => $_ENV['API_KEY'],
-            "q" => $_ENV['CITY'],
-            'dt' => DateTimeService::getYesterday(),
-            'end_dt' => DateTimeService::getTimeNow(),
+            "q" => $_SESSION['search'],
+            'dt' => $carbonBefore12Hours,
+            'end_dt' => $carbonAfter12Hours,
         ];
 
         $qsForHistory = http_build_query($parametersOfHistory);
@@ -34,12 +43,15 @@ class WeatherApiDataRepository implements WeatherDataRepository
         try {
             $response = $client->request('GET', $requestUrlForHistory);
         } catch (ClientException $e) {
+            $_SESSION['search'] = 'Riga';
+            header('Location: /');
             echo 'Caught exception: ' . $e->getMessage() . "\n";
         } catch (GuzzleException $e) {
             echo $e;
         }
-        $request = json_decode($response->getBody());
 
+
+        $request = json_decode($response->getBody());
 
         $data = [];
 

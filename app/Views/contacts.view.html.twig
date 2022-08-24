@@ -1,18 +1,20 @@
 {% extends "base.html.twig" %}
 {% block body %}
+
     <div class="container flex-column">
-        <h1 class="h1 text-center ms-3 mt-4">Contact Me</h1>
+        <h1 class="h1 text-center ms-3 mt-4 text">Contact Me</h1>
     </div>
+
     <br>
-    <div class="row m-5 page-container">
-        <div class="col-5 thumb">
-            <img class="ms-auto d-block" height=40px width=40px
+
+    {{ include('inc/gmap.html.twig') }}
+
+    <div class="text-center align-bottom mt-5 fixed-bottom" style="height: 100px;">
+            <img class="d-inline-block" height=40px width=40px
                  src="https://cdn4.iconfinder.com/data/icons/email-01-popglyph/512/47_label_price_tag_important_mail_email_discount-512.png"
                  alt="Email Icon">
-        </div>
-        <div class="col-7 thumb">
-            <p class="mt-2"><em>juris.bumaniss@gmail.com</em></p>
-        </div>
+            <p class="mt-2 d-inline-block text"><em>juris.bumaniss@gmail.com</em></p>
     </div>
+
     <br>
 {% endblock %}
