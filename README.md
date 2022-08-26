@@ -19,19 +19,19 @@
 # How To Set up:
 
 
-### ! Requirement: 
+### ! Requirements: 
 #### PHP installed on your machine
-#### Registered api key from https://www.weatherapi.com/.
+#### Registered api key from https://www.weatherapi.com/
 
 ----
 
 #### 1. Register on https://www.weatherapi.com/
 
-#### 2. Clone or download to your chosen directory
+#### 2. Clone this git repository or download to your chosen directory
 
 #### 3. Rename .env.example file to .env
 
-#### 3. Fill API_KEY in the .env file your renamed in root directory with api key from step 1
+#### 3. Fill API_KEY in the .env file you renamed in root directory with api key from step 1
 
 #### 4. Run command to install required packages
 
