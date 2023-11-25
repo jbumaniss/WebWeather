@@ -10,16 +10,16 @@ use App\Repositories\WeatherDataRepository;
 
 class WeatherDataService
 {
-    private WeatherDataRepository $articleRepository;
+    private WeatherDataRepository $weatherDataRepository;
 
-    public function __construct(WeatherDataRepository $articleRepository)
+    public function __construct(WeatherDataRepository $weatherDataRepository)
     {
-        $this->articleRepository = $articleRepository;
+        $this->weatherDataRepository = $weatherDataRepository;
     }
 
     public function execute(): WeatherDataCollection
     {
-        return $this->articleRepository->requestWeatherData();
+        return $this->weatherDataRepository->requestWeatherData();
     }
 
 }

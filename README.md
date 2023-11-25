@@ -1,6 +1,6 @@
 # WeatherReport App
 
-The WeatherReport App is a comprehensive tool for obtaining past and current weather information in a specified location. It is developed using PHP, Twig, Guzzle, and Carbon.
+The WeatherReport App is a comprehensive tool for obtaining past and current weather information in a specified location. It is developed using Alpine, PHP, Twig, Guzzle, and Carbon.
 
 ## Features
 

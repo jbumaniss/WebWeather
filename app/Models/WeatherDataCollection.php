@@ -10,21 +10,13 @@ class WeatherDataCollection
 
     public function __construct(array $weatherData)
     {
-        $carbon = CarbonImmutable::now();
-        $yesterday12Hours = $carbon->subtract(12, 'hour')->isoFormat('HH');
+        $twelveHoursAgo = CarbonImmutable::now()->subHours(12);
 
-        $totalWeatherDataHours = count($weatherData);
-
-        $yesterday = (int)$yesterday12Hours;
-
-        $today = $yesterday + 24;
-
-        if ($today > $totalWeatherDataHours) {
-            $today -= 1;
-        }
-
-        for ($i = $yesterday; $i <= $today; $i++) {
-            $this->addWeatherData($weatherData[$i]);
+        foreach ($weatherData as $data) {
+            $dataTime = CarbonImmutable::createFromFormat('Y-m-d H:i', $data->getDate());
+            if ($dataTime >= $twelveHoursAgo) {
+                $this->addWeatherData($data);
+            }
         }
     }
 

@@ -3,6 +3,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 class WeatherData
 {
     private string $date;
@@ -62,7 +64,8 @@ class WeatherData
 
     public function isCurrentHour(): bool
     {
-        return date('d H', strtotime($this->date)) == date("d H");
+        $weatherDate = Carbon::createFromFormat('Y-m-d H:i', $this->date);
+        return $weatherDate->isSameHour(Carbon::now());
     }
 
 }

@@ -6,52 +6,65 @@ namespace App\Repositories;
 use App\Models\WeatherData;
 use App\Models\WeatherDataCollection;
 use Carbon\CarbonImmutable;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
+use App\Services\SessionService;
+use App\Services\ConfigService;
 
 class WeatherApiDataRepository implements WeatherDataRepository
 {
+    private SessionService $sessionService;
+    private ConfigService $configService;
+    private Client $httpClient;
+
+    public function __construct(SessionService $sessionService, ConfigService $configService, Client $httpClient)
+    {
+        $this->sessionService = $sessionService;
+        $this->configService = $configService;
+        $this->httpClient = $httpClient;
+    }
+
+    /**
+     * @throws GuzzleException
+     * @throws Exception
+     */
     public function requestWeatherData(): WeatherDataCollection
     {
-        $urlOfHistory = $_ENV['BASE_URL'] . $_ENV['DESTINATION'];
-        $response = [];
-
-        if (!$_SESSION['search']) {
-            $_SESSION['search'] = 'Riga';
-        }
-
-
+        $urlOfHistory = $this->configService->get('BASE_URL') . $this->configService->get('DESTINATION');
+        $city = $this->sessionService->get('search', $this->configService->get('DEFAULT_CITY'));
         $carbon = CarbonImmutable::now();
-        $carbonBefore12Hours = $carbon->subtract(12, 'hour')->isoFormat('Y-MMM-D');
-        $carbonAfter12Hours = $carbon->add(12, 'hour')->isoFormat('Y-MMM-D');
-
 
         $parametersOfHistory = [
-            'key' => $_ENV['API_KEY'],
-            "q" => $_SESSION['search'],
-            'dt' => $carbonBefore12Hours,
-            'end_dt' => $carbonAfter12Hours,
+            'key' => $this->configService->get('API_KEY'),
+            "q" => $city,
+            'dt' => $carbon->subHours(12)->isoFormat('Y-MMM-D'),
+            'end_dt' => $carbon->addHours(12)->isoFormat('Y-MMM-D'),
         ];
 
-        $qsForHistory = http_build_query($parametersOfHistory);
-
-        $requestUrlForHistory = "$urlOfHistory?$qsForHistory";
-
-        $client = new Client();
+        $requestUrlForHistory = "$urlOfHistory?" . http_build_query($parametersOfHistory);
 
         try {
-            $response = $client->request('GET', $requestUrlForHistory);
+            $this->sessionService->set('cityNotFound', false);
+            $response = $this->httpClient->request('GET', $requestUrlForHistory);
         } catch (ClientException $e) {
-            $_SESSION['search'] = 'Riga';
-            header('Location: /');
-            echo 'Caught exception: ' . $e->getMessage() . "\n";
-        } catch (GuzzleException $e) {
-            echo $e;
+            if ($e->getResponse()->getStatusCode() == 400) {
+                $this->sessionService->set('cityNotFound', true);
+                return new WeatherDataCollection([]);
+            }
+
+            throw new Exception("Error fetching weather data: " . $e->getMessage());
         }
 
         $request = json_decode($response->getBody());
+        $data = $this->parseWeatherData($request);
 
+        return new WeatherDataCollection($data);
+    }
+
+    private function parseWeatherData($request): array
+    {
         $data = [];
 
         $hours = count($request->forecast->forecastday[1]->hour);
@@ -77,6 +90,7 @@ class WeatherApiDataRepository implements WeatherDataRepository
                 (string)$request->forecast->forecastday[1]->hour[$i]->wind_kph
             );
         }
-        return new WeatherDataCollection($data);
+
+        return $data;
     }
 }
